@@ -33,6 +33,9 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     if (til_input.error == null)
                         til_input.error = getString(R.string.invalid_input)
+
+                    txt_median.text = ""
+                    txt_mean.text = ""
                 }
 
             }
