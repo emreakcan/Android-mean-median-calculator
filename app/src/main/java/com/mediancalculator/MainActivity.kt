@@ -3,8 +3,11 @@ package com.mediancalculator
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,28 +17,41 @@ class MainActivity : AppCompatActivity() {
     1 , 2 ,3 ,4 ,6
     1.2 , 5, 5.5, 6
      */
-    private val ARRAY_FORMAT_REGEX = """^(\s*-?\d+(\.\d+)?)(\s*,\s*-?\d+(\.\d+)?)*${'$'}""".toRegex()
+    private val ARRAY_FORMAT_REGEX =
+        """^(\s*-?\d+(\.\d+)?)(\s*,\s*-?\d+(\.\d+)?)*${'$'}""".toRegex()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        edt_input.addTextChangedListener(object : TextWatcher {
+        setMeanMedianCalculatorUi(til_input, txt_mean, txt_median)
+
+    }
+
+    private fun setMeanMedianCalculatorUi(
+        textInput: TextInputLayout,
+        meanTextView: TextView,
+        medianTextView: TextView
+    ) {
+
+        textInput.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (!s.isNullOrBlank() && s.matches(ARRAY_FORMAT_REGEX)) {
-                    til_input.error = null
 
-                    val numbers = s.toString().replace(" ", "").split(",").map { it.toFloat() }
+                    textInput.error = null
 
-                    txt_mean.text = numbers.average().round(1).toString()
+                    val numbers = editableToFloatArray(s)
 
-                    txt_median.text = numbers.median().toString()
+                    meanTextView.text = numbers.average().round(1).toString()
+                    medianTextView.text = numbers.median().toString()
+
                 } else {
-                    if (til_input.error == null)
-                        til_input.error = getString(R.string.invalid_input)
 
-                    txt_median.text = ""
-                    txt_mean.text = ""
+                    if (textInput.error == null)
+                        textInput.error = getString(R.string.invalid_input)
+
+                    medianTextView.text = ""
+                    meanTextView.text = ""
                 }
 
             }
@@ -44,6 +60,10 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
         })
+    }
+
+    private fun editableToFloatArray(s: Editable): List<Float> {
+        return s.toString().replace(" ", "").split(",").map { it.toFloat() }
     }
 
 }
