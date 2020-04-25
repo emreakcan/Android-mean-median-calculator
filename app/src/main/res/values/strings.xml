@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Median Calculator</string>
+    <string name="invalid_input">Invalid Input</string>
+    <string name="type_your_array_here_1_2_3_4">Type your array here : 1,2,3,4</string>
+    <string name="hint_text">Type your array here : 1,2,3,4</string>
+    <string name="median">Median</string>
+    <string name="mean">Mean</string>
+</resources>
