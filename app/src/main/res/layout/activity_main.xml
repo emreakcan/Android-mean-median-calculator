@@ -65,6 +65,7 @@
             android:id="@+id/edt_input"
             android:digits="0123456789,. "
             android:maxLength="50"
+            android:inputType="numberDecimal|numberSigned"
             android:drawablePadding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
